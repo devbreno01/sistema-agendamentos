@@ -139,7 +139,7 @@ Os services concentram as regras de negócio. O `AppointmentService` é respons�
 
 Com essa separação, os controllers ficam responsáveis apenas por receber a requisição, chamar o service e devolver a resposta HTTP.
 
-## Multitenancy com banco único
+## Multitenancy com Single Database
 
 O projeto utiliza a estratégia **single database multitenancy**. Todos os tenants compartilham o mesmo banco e as mesmas tabelas, enquanto a coluna `tenant_id` identifica o proprietário de cada registro.
 
