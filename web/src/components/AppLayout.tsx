@@ -19,15 +19,10 @@ export function AppLayout() {
 
       <aside className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col bg-[#141414] text-white transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex h-24 items-center justify-between border-b border-white/10 px-7">
-          <div className="flex items-center gap-3">
-            <span className="grid size-10 place-items-center rounded-xl bg-[#FBE509] font-bold text-[#141414]">H</span>
-            <div><p className="font-semibold leading-none">Horizon</p><p className="mt-1 text-[11px] text-white/45">Consultas</p></div>
-          </div>
           <button className="rounded-lg p-2 text-white/60 lg:hidden" onClick={() => setSidebarOpen(false)}><X className="size-5" /></button>
         </div>
 
         <nav className="flex-1 p-4">
-          <p className="mb-3 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">Menu principal</p>
           <NavLink to="/appointments" onClick={() => setSidebarOpen(false)} className={({ isActive }) => `flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${isActive ? 'bg-[#FBE509] text-[#141414]' : 'text-white/65 hover:bg-white/5 hover:text-white'}`}>
             <CalendarDays className="size-5" /> Agendamentos
           </NavLink>

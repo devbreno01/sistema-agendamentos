@@ -135,7 +135,6 @@ export function AppointmentsPage() {
   return (
     <div>
       <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-        <div><p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-black/35">Visão geral</p><h1 className="text-3xl font-semibold tracking-[-0.04em] text-[#141414]">Agendamentos</h1><p className="mt-2 text-sm text-black/45">Organize e acompanhe todas as consultas.</p></div>
         <Button variant="yellow" onClick={openCreate}><Plus className="size-4" /> Nova consulta</Button>
       </div>
 
