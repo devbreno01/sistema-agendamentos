@@ -22,8 +22,6 @@ return new class extends Migration
             $table->enum('status', ['scheduled', 'completed', 'cancelled'])
                 ->default('scheduled');
             $table->timestamps();
-
-            $table->unique(['tenant_id', 'patient_cpf', 'appointment_at']);
         });
     }
 

@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -16,15 +14,15 @@ return new class extends Migration
             DB::statement('ALTER TABLE appointments DROP CONSTRAINT IF EXISTS appointments_patient_cpf_unique');
             DB::statement('ALTER TABLE appointments DROP CONSTRAINT IF EXISTS appointments_tenant_id_patient_cpf_unique');
             DB::statement('ALTER TABLE appointments DROP CONSTRAINT IF EXISTS appointments_tenant_id_patient_cpf_appointment_at_unique');
-        } elseif (DB::getDriverName() === 'sqlite') {
+
+            return;
+        }
+
+        if (DB::getDriverName() === 'sqlite') {
             DB::statement('DROP INDEX IF EXISTS appointments_patient_cpf_unique');
             DB::statement('DROP INDEX IF EXISTS appointments_tenant_id_patient_cpf_unique');
             DB::statement('DROP INDEX IF EXISTS appointments_tenant_id_patient_cpf_appointment_at_unique');
         }
-
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->string('patient_cpf', 14)->change();
-        });
     }
 
     /**
@@ -32,8 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('appointments', function (Blueprint $table) {
-            $table->string('patient_cpf', 11)->change();
-        });
+        // A regra depende do status e é aplicada pelo service/repository.
     }
 };

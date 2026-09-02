@@ -35,10 +35,7 @@ class AppointmentService
         $attributes = $dto->toArray();
         $this->validateCpf($attributes['patient_cpf']);
         $attributes['appointment_at'] = $this->validateFutureDate($attributes['appointment_at']);
-        $this->validateDuplicate(
-            $attributes['patient_cpf'],
-            $attributes['appointment_at'],
-        );
+        $this->validateNoOpenAppointment($attributes['patient_cpf']);
 
         $attributes['tenant_id'] = Auth::user()->tenant_id;
         $attributes['status'] = Appointment::STATUS_SCHEDULED;
@@ -53,16 +50,13 @@ class AppointmentService
 
         $attributes = $dto->toArray();
         $cpf = $attributes['patient_cpf'] ?? $appointment->patient_cpf;
-        $appointmentAt = $attributes['appointment_at'] ?? $appointment->appointment_at->format('Y-m-d H:i:s');
-
         $this->validateCpf($cpf);
 
         if (array_key_exists('appointment_at', $attributes)) {
-            $appointmentAt = $this->validateFutureDate($attributes['appointment_at']);
-            $attributes['appointment_at'] = $appointmentAt;
+            $attributes['appointment_at'] = $this->validateFutureDate($attributes['appointment_at']);
         }
 
-        $this->validateDuplicate($cpf, $appointmentAt, $appointment->id);
+        $this->validateNoOpenAppointment($cpf, $appointment->id);
 
         $appointment->update($attributes);
 
@@ -113,11 +107,11 @@ class AppointmentService
         return $date->format('Y-m-d H:i:s');
     }
 
-    private function validateDuplicate(string $cpf, string $appointmentAt, ?int $exceptId = null): void
+    private function validateNoOpenAppointment(string $cpf, ?int $exceptId = null): void
     {
-        if ($this->repository->duplicateExists($cpf, $appointmentAt, $exceptId)) {
+        if ($this->repository->hasScheduledAppointmentForCpf($cpf, $exceptId)) {
             throw ValidationException::withMessages([
-                'appointment_at' => 'Já existe uma consulta para este CPF na mesma data e hora.',
+                'patient_cpf' => 'Já existe uma consulta agendada para este CPF.',
             ]);
         }
     }

@@ -55,9 +55,11 @@ class AppointmentApiTest extends TestCase
 
         $this->postJson('/api/appointments', $this->validPayload())->assertCreated();
 
-        $this->postJson('/api/appointments', $this->validPayload())
+        $this->postJson('/api/appointments', $this->validPayload([
+            'appointment_at' => '2026-12-09 09:00:00',
+        ]))
             ->assertUnprocessable()
-            ->assertJsonValidationErrors('appointment_at');
+            ->assertJsonValidationErrors('patient_cpf');
     }
 
     public function test_it_only_completes_an_appointment_on_its_scheduled_day(): void
@@ -73,6 +75,19 @@ class AppointmentApiTest extends TestCase
         $this->patchJson("/api/appointments/{$appointment->id}/status", ['status' => 'completed'])
             ->assertOk()
             ->assertJsonPath('data.status', Appointment::STATUS_COMPLETED);
+    }
+
+    public function test_it_allows_a_new_appointment_after_the_previous_one_is_cancelled(): void
+    {
+        $appointment = $this->createAppointment();
+
+        $this->patchJson("/api/appointments/{$appointment->id}/status", [
+            'status' => Appointment::STATUS_CANCELLED,
+        ])->assertOk();
+
+        $this->postJson('/api/appointments', $this->validPayload([
+            'appointment_at' => '2026-12-09 09:00:00',
+        ]))->assertCreated();
     }
 
     public function test_terminal_status_cannot_be_changed_or_edited(): void

@@ -8,11 +8,11 @@ class AppointmentRepository extends AbstractRepository
 {
     protected static $model = Appointment::class;
 
-    public function duplicateExists(string $cpf, string $appointmentAt, ?int $exceptId = null): bool
+    public function hasScheduledAppointmentForCpf(string $cpf, ?int $exceptId = null): bool
     {
         return Appointment::query()
             ->where('patient_cpf', $cpf)
-            ->where('appointment_at', $appointmentAt)
+            ->where('status', Appointment::STATUS_SCHEDULED)
             ->when($exceptId, fn ($query) => $query->whereKeyNot($exceptId))
             ->exists();
     }
