@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_sistema_agendamentos
+    restart: always
+    environment:
+      POSTGRES_DB: agendamentos
+      POSTGRES_USER:  ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5439:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+
+volumes:
+  pgdata:
+
