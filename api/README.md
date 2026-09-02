@@ -2,54 +2,30 @@
 
 ## Descrição
 
-API REST desenvolvida em PHP com Laravel para gerenciar o fluxo de chamados de suporte e solicitações internas.
-
+API REST desenvolvida em PHP com Laravel clinicas de agendamento
 ## Ferramentas
 - PHP 
 - Laravel
 - PostgresSQL
 - Docker
 
-## Requisitos
-
-O objetivo é gerenciar o fluxo de chamados de suporte ou solicitações internas.
-
-Operações esperadas:
-
-- Cadastro de Setores
-- Cadastro de Prioridades (ex: Baixa, Média, Alta) com tempo estimado em horas
-- Cadastro do Chamado, vinculando ao Setor e à Prioridade (status inicial: "Aberto")
-- Atendimento (Check-in): registrar data e hora de início
-  - Não pode iniciar um chamado já finalizado ou cancelado
-- Finalização (Check-out): registrar data/hora de término e uma breve solução
-  - Só pode finalizar chamados que foram iniciados
-- Listagem de chamados com Setor, Prioridade, Status atual e Tempo Total de Atendimento
-- Destacar chamados que ultrapassarem o tempo estimado da prioridade
 
 ## Arquitetura e Decisões Técnicas
 
 - Utilizei MultiTenancy em Single Database, pensado para um projeto que compartilha a mesma infraestrutura e dados em um único banco, isolando os inquilinos por contexto de tenant.
 -Utilizei Services e Repositories para separar a lógica e persistência de dados da controller 
-- Laravel Sanctum para autenticação e geração de token
-- Modelos principais: `Tenant`, `User`, `Sector`, `Priority`, `Ticket`, `Attendance`.
-- Regras de negócio implementadas para garantir que:
-  - um chamado não pode ser iniciado se já estiver finalizado ou cancelado;
-  - um chamado só pode ser finalizado se já tiver sido iniciado;
-  - o tempo total de atendimento seja calculado corretamente e chamados atrasados sejam destacados.
 
 ## Arquitetura de pastas
 
 A estrutura principal do projeto segue a organização padrão do Laravel com separação clara entre rotas, modelos, controllers, services e repositories.
 
 - `routes/api.php` - arquivo principal das rotas da API. Aqui ficam definidos os endpoints que consumirão os controllers.
-- `app/Models/` - onde ficam as models do sistema, incluindo `Tenant`, `User`, `Sector`, `Priority`, `Ticket` e `Attendance`.
+- `app/Models/` - onde ficam as models do sistema, incluindo `Tenant`, `User`
 - `app/Http/Controllers/` - contém as controllers responsáveis por receber as requisições HTTP e coordenar as ações de negócio.
 - `app/Services/` - contém a camada de serviços com a lógica de negócio, usada para separar regras e processos das controllers.
 - `app/Repositories/` - contém a camada de acesso a dados e persistência, centralizando as consultas e operações sobre as models.
 
-## ENDPOINTS
-- Adicionei uma collection no repositório chamada `w5i-attendance.postman_collection.json` que pode ser aberta no Postman ou Insomnia.
-- Dentro da collection há todos os endpoints e payloads da API.
+
 
 ## Requisitos para rodar o projeto
 
@@ -119,10 +95,7 @@ php artisan serve
 http://127.0.0.1:8000
 ```
 
-## Lógica que acrescentei 
-- Rota para média de tempo dos atendimentos
-- Rota GET para listagem de todos os atendimentos com  status cancelados
-- Tabela `attendance_events` para registrar log dos atendimentos, assim pode-se ter as informações com data e hora de quando houve a alteração de atendimento, como: Pausa, cancelamento e etc
+
 
 
 ## Como funciona a estrutura de  multitenancy na aplicação? 
@@ -133,5 +106,4 @@ http://127.0.0.1:8000
 ## Futuras melhorias para o projeto 
 - Criar e rodar testes unitários e de feature
 - Rodar o projeto inteiro em Docker, não a dependência do banco de dados
-- Criar um frontend para aplicação 
 
