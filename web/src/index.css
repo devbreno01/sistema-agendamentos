@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@import "@fontsource/poppins/latin-400.css";
+@import "@fontsource/poppins/latin-500.css";
+@import "@fontsource/poppins/latin-600.css";
+@import "@fontsource/poppins/latin-700.css";
+
+:root {
+  font-family: "Poppins", sans-serif;
+  color: #141414;
+  background: #f7f7f7;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --horizon-yellow: #fbe509;
+  --horizon-black: #000000;
+  --horizon-graphite: #141414;
+  --horizon-gray: #f7f7f7;
+  --horizon-white: #ffffff;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { color: #141414; background: #fbe509; }
