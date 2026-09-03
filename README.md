@@ -73,6 +73,12 @@ php artisan key:generate
 php artisan migrate
 ```
 
+Depois de cadastrar um usuário, consultas de exemplo podem ser adicionadas ao seu tenant com:
+
+```bash
+php artisan db:seed --class=AppointmentSeeder
+```
+
 Inicie a API:
 
 ```bash

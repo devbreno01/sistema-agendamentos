@@ -2,26 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-       
-        DB::table('statuses')->insert([
-            ['name' => 'Aberto'],
-            ['name' => 'Em Atendimento'],
-            ['name' => 'Finalizado'],
-            ['name' => 'Cancelado'],
-        ]);
+        $this->call(AppointmentSeeder::class);
     }
 }
